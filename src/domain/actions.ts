@@ -1,4 +1,4 @@
-const TEXTURE_PATH = '/textures';
+const TEXTURE_PATH = `${import.meta.env.BASE_URL}textures`;
 
 export const ACTIONS = {
   punch: { label: 'Punch', value: 2, icon: 'punch.png' },
