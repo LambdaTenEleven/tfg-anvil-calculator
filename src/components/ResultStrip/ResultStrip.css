@@ -10,6 +10,22 @@
   gap: 8px;
 }
 
+.action-run {
+  display: inline-flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.action-count {
+  min-height: 56px;
+  display: inline-flex;
+  align-items: center;
+  color: var(--color-muted);
+  font-size: 0.86rem;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
 .empty-result {
   margin-bottom: 0;
   color: var(--color-muted);

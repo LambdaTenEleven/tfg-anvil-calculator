@@ -74,7 +74,12 @@ export default function App() {
   return (
     <main className="app-shell">
       <header className="app-header">
-        <div>
+        <div className="title-lockup">
+          <img
+            className="title-icon"
+            src={`${import.meta.env.BASE_URL}textures/steel-anvil.png`}
+            alt=""
+          />
           <h1>TerraFirmaGreg Anvil Calculator</h1>
         </div>
       </header>
