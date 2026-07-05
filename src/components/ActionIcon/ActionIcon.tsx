@@ -1,4 +1,5 @@
-import { ACTIONS, textureUrl, type ActionId } from '../domain/actions';
+import { ACTIONS, textureUrl, type ActionId } from '../../domain/actions';
+import './ActionIcon.css';
 
 interface ActionIconProps {
   action: ActionId;

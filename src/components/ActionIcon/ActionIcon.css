@@ -1,0 +1,71 @@
+.action-choice {
+  width: 70px;
+  display: grid;
+  justify-items: center;
+  gap: 6px;
+}
+
+.action-icon {
+  position: relative;
+  width: 52px;
+  height: 52px;
+  display: grid;
+  place-items: center;
+  padding: 5px;
+  border: 1px solid #514c43;
+  border-radius: 0;
+  background: #666666;
+  cursor: pointer;
+  transition:
+    border-color 160ms ease,
+    box-shadow 160ms ease,
+    transform 160ms ease;
+}
+
+.action-icon:hover {
+  transform: translateY(-1px);
+  border-color: #c7b891;
+}
+
+.action-icon.selected {
+  border-color: transparent;
+  box-shadow: none;
+}
+
+.action-icon.selected::after {
+  position: absolute;
+  inset: -8px;
+  content: "";
+  pointer-events: none;
+  background-image: url('/textures/empty.png');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 100% 100%;
+  image-rendering: pixelated;
+  z-index: 2;
+}
+
+.action-icon img {
+  position: relative;
+  z-index: 1;
+  width: 42px;
+  height: 42px;
+  image-rendering: pixelated;
+}
+
+.action-label {
+  max-width: 100%;
+  color: #25221d;
+  font-size: 0.72rem;
+  font-weight: 800;
+  line-height: 1.1;
+  text-align: center;
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 560px) {
+  .action-icon {
+    width: 48px;
+    height: 48px;
+  }
+}

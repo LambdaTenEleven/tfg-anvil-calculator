@@ -1,0 +1,5 @@
+.action-picker {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}

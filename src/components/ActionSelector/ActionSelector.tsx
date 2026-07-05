@@ -1,5 +1,6 @@
-import ActionIcon from './ActionIcon';
-import { PICKABLE_ACTIONS, type PickableActionId } from '../domain/actions';
+import ActionIcon from '../ActionIcon';
+import { PICKABLE_ACTIONS, type PickableActionId } from '../../domain/actions';
+import './ActionSelector.css';
 
 interface ActionSelectorProps {
   value: PickableActionId | '';

@@ -1,0 +1,26 @@
+.result-strip + .result-strip {
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid #ded5c4;
+}
+
+.action-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.empty-result {
+  margin-bottom: 0;
+  color: #6d6254;
+}
+
+.result-icon {
+  width: 56px;
+  height: 56px;
+  padding: 6px;
+  border: 1px solid #514c43;
+  border-radius: 0;
+  background: #666666;
+  image-rendering: pixelated;
+}

@@ -1,0 +1,24 @@
+.instruction-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 180px;
+  gap: 16px;
+  align-items: center;
+  padding: 12px;
+  border: 1px solid #ded5c4;
+  border-radius: 8px;
+  background: #f7f2e8;
+}
+
+.priority-field {
+  display: grid;
+  gap: 8px;
+  color: #5f5446;
+  font-size: 0.84rem;
+  font-weight: 700;
+}
+
+@media (max-width: 860px) {
+  .instruction-row {
+    grid-template-columns: 1fr;
+  }
+}

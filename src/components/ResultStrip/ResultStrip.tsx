@@ -1,5 +1,6 @@
-import ActionIcon from './ActionIcon';
-import { ACTIONS, type ResolvedActionId } from '../domain/actions';
+import ActionIcon from '../ActionIcon';
+import { ACTIONS, type ResolvedActionId } from '../../domain/actions';
+import './ResultStrip.css';
 
 interface ResultStripProps {
   title: string;

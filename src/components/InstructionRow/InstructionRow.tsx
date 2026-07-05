@@ -1,5 +1,6 @@
-import ActionSelector from './ActionSelector';
-import { PRIORITIES, type Instruction, type PickableActionId, type PriorityValue } from '../domain/actions';
+import ActionSelector from '../ActionSelector';
+import { PRIORITIES, type Instruction, type PickableActionId, type PriorityValue } from '../../domain/actions';
+import './InstructionRow.css';
 
 interface InstructionRowProps {
   instruction: Instruction;
