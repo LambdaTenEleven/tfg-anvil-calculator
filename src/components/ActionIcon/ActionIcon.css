@@ -12,9 +12,9 @@
   display: grid;
   place-items: center;
   padding: 5px;
-  border: 1px solid #514c43;
+  border: 1px solid var(--color-icon-border);
   border-radius: 0;
-  background: #666666;
+  background: var(--color-icon-bg);
   cursor: pointer;
   transition:
     border-color 160ms ease,
@@ -24,7 +24,7 @@
 
 .action-icon:hover {
   transform: translateY(-1px);
-  border-color: #c7b891;
+  border-color: var(--color-icon-border-hover);
 }
 
 .action-icon.selected {
@@ -55,7 +55,7 @@
 
 .action-label {
   max-width: 100%;
-  color: #25221d;
+  color: var(--color-text);
   font-size: 0.72rem;
   font-weight: 800;
   line-height: 1.1;

@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react';
 import InstructionRow from './components/InstructionRow';
 import ResultStrip from './components/ResultStrip';
+import ThemeToggle from './components/ThemeToggle';
 import {
   emptyInstruction,
   type Instruction,
@@ -8,6 +9,7 @@ import {
   type SelectedInstruction,
 } from './domain/actions';
 import { calculateSetupActions, normalizeInstructions, sortInstructions } from './domain/calculator';
+import { useTheme } from './hooks/useTheme';
 import './App.css';
 
 interface CalculationResult {
@@ -20,6 +22,7 @@ function isSelectedInstruction(instruction: Instruction): instruction is Selecte
 }
 
 export default function App() {
+  const { theme, toggleTheme } = useTheme();
   const [instructions, setInstructions] = useState<Instruction[]>([
     emptyInstruction(),
     emptyInstruction(),
@@ -74,16 +77,23 @@ export default function App() {
         <div>
           <h1>TerraFirmaGreg Anvil Calculator</h1>
         </div>
-        <button type="button" className="secondary-button" onClick={reset}>
-          Reset
-        </button>
       </header>
 
       <div className="layout">
         <section className="panel instructions-panel">
           <div className="section-heading">
             <h2>Smithing Instructions</h2>
-            <span>{validInstructions.length}/3 set</span>
+            <div className="section-heading-actions">
+              <span>{validInstructions.length}/3 set</span>
+              <button type="button" className="quiet-button" onClick={reset}>
+                Clear all
+              </button>
+            </div>
+          </div>
+
+          <div className="instruction-list-header" aria-hidden="true">
+            <span>Action</span>
+            <span>Priority</span>
           </div>
 
           <div className="instruction-list">
@@ -99,22 +109,31 @@ export default function App() {
           </div>
         </section>
 
-        <aside className="panel target-panel">
-          <h2>Target Value</h2>
-          <label className="target-field">
-            <input
-              type="number"
-              min="0"
-              value={targetValue}
-              onChange={(event) => setTargetValue(event.target.value)}
-              placeholder="Example: 72"
-            />
-          </label>
-          {error ? <p className="error-message">{error}</p> : null}
-          <button type="button" className="primary-button" onClick={calculate}>
-            Calculate
-          </button>
-        </aside>
+        <div className="side-panel-stack">
+          <aside className="panel target-panel">
+            <h2>Target Value</h2>
+            <label className="target-field">
+              <input
+                type="number"
+                min="0"
+                value={targetValue}
+                onChange={(event) => setTargetValue(event.target.value)}
+                placeholder="Example: 72"
+              />
+            </label>
+            {error ? <p className="error-message">{error}</p> : null}
+            <button type="button" className="primary-button" onClick={calculate}>
+              Calculate
+            </button>
+          </aside>
+
+          <aside className="panel settings-panel">
+            <h2>Settings</h2>
+            <div className="settings-list">
+              <ThemeToggle theme={theme} onToggle={toggleTheme} />
+            </div>
+          </aside>
+        </div>
       </div>
 
       <section className="panel results-panel">

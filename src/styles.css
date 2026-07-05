@@ -1,10 +1,61 @@
 :root {
-  color: #25221d;
-  background: #ebe7dd;
+  color: var(--color-text);
+  background: var(--color-page-bg);
+  color-scheme: light;
   font-family:
     Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
+  --color-text: #25221d;
+  --color-muted: #6d6254;
+  --color-page-bg: #ebe7dd;
+  --color-page-glow: rgba(255, 255, 255, 0.36);
+  --color-panel-bg: rgba(255, 253, 247, 0.78);
+  --color-panel-border: #cec3ae;
+  --color-panel-shadow: rgba(65, 51, 31, 0.08);
+  --color-row-bg: #f7f2e8;
+  --color-row-border: #ded5c4;
+  --color-field-bg: #fffaf0;
+  --color-field-border: #bfb39f;
+  --color-focus-ring: rgba(48, 93, 71, 0.2);
+  --color-primary: #305d47;
+  --color-primary-hover: #254a38;
+  --color-primary-text: #fffaf0;
+  --color-secondary-bg: #d9e3d1;
+  --color-secondary-bg-hover: #cbd9c1;
+  --color-secondary-text: #305d47;
+  --color-error: #9b2f25;
+  --color-icon-bg: #666666;
+  --color-icon-border: #514c43;
+  --color-icon-border-hover: #c7b891;
+  --color-link-hover-bg: rgba(217, 227, 209, 0.7);
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --color-text: #eee9dd;
+  --color-muted: #b9ad9a;
+  --color-page-bg: #191b17;
+  --color-page-glow: rgba(116, 144, 112, 0.16);
+  --color-panel-bg: rgba(38, 39, 33, 0.88);
+  --color-panel-border: #56513f;
+  --color-panel-shadow: rgba(0, 0, 0, 0.28);
+  --color-row-bg: #2d2c24;
+  --color-row-border: #655d48;
+  --color-field-bg: #211f1a;
+  --color-field-border: #746b55;
+  --color-focus-ring: rgba(132, 183, 142, 0.28);
+  --color-primary: #7fb58c;
+  --color-primary-hover: #95c79d;
+  --color-primary-text: #162016;
+  --color-secondary-bg: #394732;
+  --color-secondary-bg-hover: #46573e;
+  --color-secondary-text: #dfead7;
+  --color-error: #ef8b7e;
+  --color-icon-bg: #4b4b46;
+  --color-icon-border: #8a806b;
+  --color-icon-border-hover: #d1c18e;
+  --color-link-hover-bg: rgba(70, 87, 62, 0.72);
 }
 
 * {
@@ -16,8 +67,8 @@ body {
   min-height: 100vh;
   margin: 0;
   background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.36), transparent 260px),
-    #ebe7dd;
+    linear-gradient(180deg, var(--color-page-glow), transparent 260px),
+    var(--color-page-bg);
 }
 
 button,
@@ -54,10 +105,10 @@ h3 {
 }
 
 .panel {
-  border: 1px solid #cec3ae;
+  border: 1px solid var(--color-panel-border);
   border-radius: 8px;
-  background: rgba(255, 253, 247, 0.78);
-  box-shadow: 0 14px 35px rgba(65, 51, 31, 0.08);
+  background: var(--color-panel-bg);
+  box-shadow: 0 14px 35px var(--color-panel-shadow);
 }
 
 .section-heading {
@@ -69,26 +120,34 @@ h3 {
 }
 
 .section-heading span {
-  color: #6d6254;
+  color: var(--color-muted);
   font-size: 0.85rem;
   font-weight: 700;
+}
+
+.section-heading-actions {
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: end;
+  gap: 10px;
 }
 
 select,
 input {
   width: 100%;
   min-height: 44px;
-  border: 1px solid #bfb39f;
+  border: 1px solid var(--color-field-border);
   border-radius: 6px;
   padding: 0 12px;
-  color: #25221d;
-  background: #fffaf0;
+  color: var(--color-text);
+  background: var(--color-field-bg);
 }
 
 select:focus,
 input:focus {
-  outline: 3px solid rgba(48, 93, 71, 0.2);
-  border-color: #305d47;
+  outline: 3px solid var(--color-focus-ring);
+  border-color: var(--color-primary);
 }
 
 .primary-button,
@@ -103,19 +162,41 @@ input:focus {
 .primary-button {
   width: 100%;
   margin-top: 16px;
-  color: #fffaf0;
-  background: #305d47;
+  color: var(--color-primary-text);
+  background: var(--color-primary);
 }
 
 .primary-button:hover {
-  background: #254a38;
+  background: var(--color-primary-hover);
 }
 
 .secondary-button {
-  color: #305d47;
-  background: #d9e3d1;
+  color: var(--color-secondary-text);
+  background: var(--color-secondary-bg);
 }
 
 .secondary-button:hover {
-  background: #cbd9c1;
+  background: var(--color-secondary-bg-hover);
+}
+
+.quiet-button {
+  min-height: 28px;
+  border-radius: 4px;
+  padding: 0 4px;
+  color: var(--color-secondary-text);
+  background: transparent;
+  font-size: 0.85rem;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.quiet-button:hover {
+  color: var(--color-primary-hover);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.quiet-button:focus-visible {
+  outline: 3px solid var(--color-focus-ring);
+  outline-offset: 2px;
 }

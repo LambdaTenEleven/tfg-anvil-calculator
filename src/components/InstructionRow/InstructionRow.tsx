@@ -24,8 +24,8 @@ export default function InstructionRow({
       />
 
       <label className="priority-field">
-        <span>Priority</span>
         <select
+          aria-label={`Instruction ${index + 1} priority`}
           value={instruction.priority}
           onChange={(event) => onPriorityChange(event.target.value as PriorityValue)}
         >
