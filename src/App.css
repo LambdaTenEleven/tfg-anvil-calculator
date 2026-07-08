@@ -71,6 +71,31 @@
   font-weight: 700;
 }
 
+.alignment-step {
+  display: grid;
+  gap: 10px;
+  width: min(100%, 520px);
+  margin-bottom: 14px;
+}
+
+.alignment-step p {
+  margin-bottom: 0;
+  color: var(--color-muted);
+  font-size: 0.9rem;
+  font-weight: 700;
+  line-height: 1.45;
+}
+
+.alignment-step img {
+  width: 100%;
+  max-height: 260px;
+  border: 1px solid var(--color-row-border);
+  border-radius: 6px;
+  object-fit: contain;
+  background: var(--color-row-bg);
+  image-rendering: pixelated;
+}
+
 .error-message {
   margin: 12px 0 0;
   color: var(--color-error);

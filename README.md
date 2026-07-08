@@ -15,6 +15,9 @@ Link to the app: https://lambdateneleven.github.io/tfg-anvil-calculator
 3. Enter the target value shown in the anvil GUI.
 4. Click Calculate.
 
+If the target value is hard to read, enable Zero-aligned mode in Settings. Align the red and green
+pointers in the anvil UI, then calculate with the app's assumed target value of `0`.
+
 The result is split into two parts:
 
 - Setup: actions used to reach the value needed before final instructions. Their order does not matter.

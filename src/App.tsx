@@ -29,6 +29,7 @@ export default function App() {
     emptyInstruction(),
   ]);
   const [targetValue, setTargetValue] = useState('');
+  const [zeroAlignedMode, setZeroAlignedMode] = useState(false);
   const [result, setResult] = useState<CalculationResult | null>(null);
   const [error, setError] = useState('');
 
@@ -46,7 +47,7 @@ export default function App() {
   }
 
   function calculate() {
-    const parsedTarget = Number.parseInt(targetValue, 10);
+    const parsedTarget = zeroAlignedMode ? 0 : Number.parseInt(targetValue, 10);
 
     if (!Number.isInteger(parsedTarget) || parsedTarget < 0) {
       setError('Enter a target value of 0 or higher.');
@@ -55,7 +56,9 @@ export default function App() {
     }
 
     const finalInstructions = normalizeInstructions(validInstructions, parsedTarget);
-    const setupActions = calculateSetupActions(parsedTarget, finalInstructions);
+    const setupActions = calculateSetupActions(parsedTarget, finalInstructions, {
+      allowBelowZeroSetup: zeroAlignedMode,
+    });
 
     setError('');
     setResult({
@@ -67,6 +70,12 @@ export default function App() {
   function reset() {
     setInstructions([emptyInstruction(), emptyInstruction(), emptyInstruction()]);
     setTargetValue('');
+    setResult(null);
+    setError('');
+  }
+
+  function toggleZeroAlignedMode() {
+    setZeroAlignedMode((currentMode) => !currentMode);
     setResult(null);
     setError('');
   }
@@ -121,7 +130,8 @@ export default function App() {
               <input
                 type="number"
                 min="0"
-                value={targetValue}
+                value={zeroAlignedMode ? '0' : targetValue}
+                disabled={zeroAlignedMode}
                 onChange={(event) => setTargetValue(event.target.value)}
                 placeholder="Example: 72"
               />
@@ -136,6 +146,18 @@ export default function App() {
             <h2>Settings</h2>
             <div className="settings-list">
               <ThemeToggle theme={theme} onToggle={toggleTheme} />
+              <button
+                type="button"
+                className="theme-toggle"
+                onClick={toggleZeroAlignedMode}
+                role="switch"
+                aria-checked={zeroAlignedMode}
+              >
+                <span>Zero-aligned mode</span>
+                <span className="theme-switch" aria-hidden="true">
+                  <span className="theme-switch-thumb" />
+                </span>
+              </button>
             </div>
           </aside>
         </div>
@@ -153,6 +175,17 @@ export default function App() {
               title="1. Setup"
               actions={result.setupActions}
               emptyText="No setup actions needed."
+              intro={
+                zeroAlignedMode ? (
+                  <div className="alignment-step">
+                    <p>Align the red and green pointers in the anvil UI.</p>
+                    <img
+                      src={`${import.meta.env.BASE_URL}textures/interface.png`}
+                      alt="Anvil UI with red and green pointers aligned"
+                    />
+                  </div>
+                ) : undefined
+              }
             />
             <ResultStrip
               title="2. Finally"

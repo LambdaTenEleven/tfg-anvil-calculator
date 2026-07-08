@@ -6,6 +6,12 @@ import {
   type SelectedInstruction,
 } from './actions';
 
+interface CalculateSetupActionsOptions {
+  allowBelowZeroSetup?: boolean;
+}
+
+const MAX_ACTION_MAGNITUDE = Math.max(...Object.values(ACTION_VALUES).map(Math.abs));
+
 function selectBestHit(
   preTargetValue: number,
   remainingHits: ResolvedActionId[],
@@ -56,12 +62,17 @@ export function normalizeInstructions(
 export function calculateSetupActions(
   targetValue: number,
   instructions: ResolvedInstruction[],
+  options: CalculateSetupActionsOptions = {},
 ): ResolvedActionId[] {
   const instructionSum = instructions.reduce(
     (total, instruction) => total + ACTION_VALUES[instruction.action],
     0,
   );
   const preTargetValue = targetValue - instructionSum;
+
+  if (options.allowBelowZeroSetup) {
+    return calculateSignedSetupActions(preTargetValue);
+  }
 
   if (!Number.isFinite(preTargetValue) || preTargetValue <= 0) {
     return [];
@@ -100,6 +111,83 @@ export function calculateSetupActions(
 
     setupActions.push(nextAction);
     currentValue -= ACTION_VALUES[nextAction];
+  }
+
+  return setupActions.reverse();
+}
+
+function calculateSignedSetupActions(targetValue: number): ResolvedActionId[] {
+  if (!Number.isFinite(targetValue) || targetValue === 0) {
+    return [];
+  }
+
+  const actions = getSignedSearchActions(targetValue);
+  const searchMargin = MAX_ACTION_MAGNITUDE * 2;
+  const minValue = Math.min(0, targetValue) - searchMargin;
+  const maxValue = Math.max(0, targetValue) + searchMargin;
+  const visited = new Map<number, { previous: number; action: ResolvedActionId } | null>();
+  const queue = [0];
+
+  visited.set(0, null);
+
+  for (let index = 0; index < queue.length; index += 1) {
+    const currentValue = queue[index];
+
+    for (const action of actions) {
+      const nextValue = currentValue + ACTION_VALUES[action];
+
+      if (nextValue < minValue || nextValue > maxValue || visited.has(nextValue)) {
+        continue;
+      }
+
+      visited.set(nextValue, { previous: currentValue, action });
+
+      if (nextValue === targetValue) {
+        return reconstructSignedSetupActions(targetValue, visited);
+      }
+
+      queue.push(nextValue);
+    }
+  }
+
+  return [];
+}
+
+function getSignedSearchActions(targetValue: number): ResolvedActionId[] {
+  const actionEntries = Object.entries(ACTION_VALUES) as [ResolvedActionId, number][];
+  const targetDirection = Math.sign(targetValue);
+
+  return actionEntries
+    .slice()
+    .sort(([, firstValue], [, secondValue]) => {
+      const firstMatchesDirection = Math.sign(firstValue) === targetDirection;
+      const secondMatchesDirection = Math.sign(secondValue) === targetDirection;
+
+      if (firstMatchesDirection === secondMatchesDirection) {
+        return 0;
+      }
+
+      return firstMatchesDirection ? -1 : 1;
+    })
+    .map(([action]) => action);
+}
+
+function reconstructSignedSetupActions(
+  targetValue: number,
+  visited: Map<number, { previous: number; action: ResolvedActionId } | null>,
+): ResolvedActionId[] {
+  const setupActions: ResolvedActionId[] = [];
+  let currentValue = targetValue;
+
+  while (currentValue !== 0) {
+    const step = visited.get(currentValue);
+
+    if (!step) {
+      return [];
+    }
+
+    setupActions.push(step.action);
+    currentValue = step.previous;
   }
 
   return setupActions.reverse();

@@ -1,3 +1,4 @@
+import type { ReactNode } from 'react';
 import ActionIcon from '../ActionIcon';
 import { ACTIONS, type ResolvedActionId } from '../../domain/actions';
 import './ResultStrip.css';
@@ -6,6 +7,7 @@ interface ResultStripProps {
   title: string;
   actions: ResolvedActionId[];
   emptyText: string;
+  intro?: ReactNode;
 }
 
 interface ActionRun {
@@ -28,12 +30,13 @@ function getActionRuns(actions: ResolvedActionId[]): ActionRun[] {
   }, []);
 }
 
-export default function ResultStrip({ title, actions, emptyText }: ResultStripProps) {
+export default function ResultStrip({ title, actions, emptyText, intro }: ResultStripProps) {
   const actionRuns = getActionRuns(actions);
 
   return (
     <section className="result-strip">
       <h3>{title}</h3>
+      {intro}
       <div className="action-row">
         {actions.length > 0 ? (
           actionRuns.map((run) => (
